@@ -1,0 +1,24 @@
+<div class="form-group row">
+    <h1 mat-dialog-title>{{title}}</h1>
+</div>
+<div mat-dialog-content>
+    <div>
+        <div class="form-group row">
+            <label>First Name:</label>
+            <input class="form-control" matInput [(ngModel)]="data.first_name">
+        </div>
+        <div class="form-group row">
+            <label>Last Name:</label>
+            <input class="form-control" matInput [(ngModel)]="data.last_name">
+        </div>
+        <div class="form-group row">
+            <label>Email:</label>
+            <input class="form-control" matInput [(ngModel)]="data.email">
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions class="form-group row form-button">
+    <button class="btn btn-danger" mat-button (click)="onNoClick()">Exit</button>
+    <button class="btn btn-info" *ngIf="data.first_name && data.last_name && data.email" mat-button
+        [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>
