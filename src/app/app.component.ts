@@ -6,6 +6,7 @@ import { Store, select } from '@ngrx/store';
 import { State } from './reducers';
 import { createUser, updateUser } from './reducers/actions';
 import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,16 @@ export class AppComponent implements OnInit, OnDestroy {
   private users: Iuser[] = [];
   private subscriptions: Subscription;
 
-  constructor(public dialog: MatDialog, private store: Store<State>) { }
+  constructor(public dialog: MatDialog, private store: Store<State>, private fireStore: AngularFirestore) { }
 
   ngOnInit() {
     this.initUsers();
+    this.initFirestore();
+  }
+
+  initFirestore() {
+    this.fireStore.collection('users').get()
+      .subscribe(val => console.log(val));
   }
 
   ngOnDestroy() {

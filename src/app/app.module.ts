@@ -7,10 +7,13 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,8 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
