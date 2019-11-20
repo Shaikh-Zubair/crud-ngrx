@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { Store, select } from '@ngrx/store';
 import { State } from './reducers';
-import { createUser, updateUser } from './reducers/actions';
+import { createUser, updateUser, getUsers } from './reducers/actions';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,12 +15,17 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'crud-app';
   private users: Iuser[] = [];
-  private subscriptions: Subscription;
+  private subscriptions: Subscription = new Subscription;
 
   constructor(public dialog: MatDialog, private store: Store<State>) { }
 
   ngOnInit() {
+    this.getUsers();
     this.initUsers();
+  }
+
+  getUsers() {
+    this.store.dispatch(getUsers());
   }
 
   ngOnDestroy() {
@@ -57,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
   createUser(data: Iuser): void {
     const usr = { ...data };
     const len = this.users.length;
-    usr.id = len > 0 ? this.users.slice(-1)[0].id + 1 : len;
+    usr.id = (len > 0 ? parseInt(this.users.slice(-1)[0].id) + 1 : len).toString();
     this.store.dispatch(createUser({ payload: usr }));
   }
 

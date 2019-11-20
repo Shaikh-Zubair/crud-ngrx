@@ -1,5 +1,5 @@
 export interface Iuser {
-    id: number;
+    id: string;
     first_name: string;
     last_name: string;
     email: string;
@@ -7,7 +7,7 @@ export interface Iuser {
 }
 
 export class user implements Iuser {
-    id: number;
+    id: string;
     first_name: string;
     last_name: string;
     email: string;
