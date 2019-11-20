@@ -34,7 +34,7 @@ export class UsersTableComponent implements OnInit {
     this.openDialog.emit(data);
   }
 
-  onDelete(id: number) {
+  onDelete(id: string) {
     this.store.dispatch(deleteUser({ payload: id }));
   }
 

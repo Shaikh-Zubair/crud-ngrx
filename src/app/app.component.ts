@@ -4,9 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { Store, select } from '@ngrx/store';
 import { State } from './reducers';
-import { createUser, updateUser } from './reducers/actions';
+import { createUser, updateUser, getUsers } from './reducers/actions';
 import { Subscription } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +15,17 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'crud-app';
   private users: Iuser[] = [];
-  private subscriptions: Subscription;
+  private subscriptions: Subscription = new Subscription;
 
-  constructor(public dialog: MatDialog, private store: Store<State>, private fireStore: AngularFirestore) { }
+  constructor(public dialog: MatDialog, private store: Store<State>) { }
 
   ngOnInit() {
+    this.getUsers();
     this.initUsers();
-    this.initFirestore();
   }
 
-  initFirestore() {
-    this.fireStore.collection('users').get()
-      .subscribe(val => console.log(val));
+  getUsers() {
+    this.store.dispatch(getUsers());
   }
 
   ngOnDestroy() {
@@ -64,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
   createUser(data: Iuser): void {
     const usr = { ...data };
     const len = this.users.length;
-    usr.id = len > 0 ? this.users.slice(-1)[0].id + 1 : len;
+    usr.id = (len > 0 ? parseInt(this.users.slice(-1)[0].id) + 1 : len).toString();
     this.store.dispatch(createUser({ payload: usr }));
   }
 

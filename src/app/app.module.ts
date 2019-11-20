@@ -9,22 +9,30 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import { environment } from 'src/environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AllEffects } from './effects';
+import { SortListComponent } from './components/sort-list/sort-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
     UsersTableComponent,
+    SortListComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    PerfectScrollbarModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     StoreModule.forRoot(reducers, {
@@ -36,11 +44,17 @@ import { environment } from 'src/environments/environment';
     }),
     BrowserAnimationsModule,
     MatDialogModule,
+    EffectsModule.forRoot([...AllEffects]),
   ],
   entryComponents: [
     AddUserComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: null
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

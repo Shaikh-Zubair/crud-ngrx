@@ -3,5 +3,9 @@
 
     <button class="btn btn-primary" mat-raised-button (click)="openDialog()">Add User</button>
 
-    <app-users-table (openDialog)="openDialog($event)"></app-users-table>
+    <app-sort-list></app-sort-list>
+
+    <div style="margin-top: 1em;">
+        <app-users-table (openDialog)="openDialog($event)"></app-users-table>
+    </div>
 </div>
